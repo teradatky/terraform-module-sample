@@ -1,7 +1,7 @@
 module "vpc_main" {
   source = "../../module/vpc"
 
-  name = "terraform-sample" # Used for Name_tag
+  name = "terraform-sample"
   cidr = "10.8.0.0/16"
   azs  = ["ap-northeast-1a", "ap-northeast-1c"]
 
@@ -26,7 +26,7 @@ module "ec2_bastion" {
   subnet_id              = module.vpc_main.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.bastion-sg.id]
   private_ip             = "10.8.8.8"
-  key_name               = "example_key"
+  # key_name               = "example_key"
 
   volume_size = 8
   volume_type = "gp2"
