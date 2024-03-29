@@ -1,4 +1,4 @@
-# AWS Terraform Module Made By Takuya Terada
+# AWS Terraform Module
 
 ## VPC Module
 
@@ -34,7 +34,7 @@ module "vpc_main" {
   single_nat_gateway = true
 
   common_tags = {
-    Env    = "Dev"
+    Env    = "dev"
   }
 }
 ```
@@ -81,7 +81,7 @@ module "ec2_bastion" {
   enable_eip = true
 
   common_tags = {
-    Env    = "Dev"
+    Env    = "dev"
   }
 }
 ```
@@ -93,3 +93,14 @@ module "ec2_bastion" {
 
 * No EIP needed such as private instance
   * enable_eip = false
+
+## How to use
+
+```bash
+git clone https://github.com/teradatky/terraform-module-sample
+cd terraform-module-sample
+cd environments/dev
+terraform init
+terraform plan
+terraform apply
+```
