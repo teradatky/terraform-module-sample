@@ -3,13 +3,13 @@
 ###########################################################
 terraform {
   # specify minimum terraform version
-  required_version = ">= 0.14"
+  required_version = ">= 1.6"
 
   # specify minimun aws version
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.56.0"
+      version = ">= 5.0"
     }
   }
 }

@@ -62,7 +62,7 @@ resource "aws_route" "public" {
 
 resource "aws_route_table_association" "public" {
   count          = length(var.public_subnets) > 0 ? length(var.public_subnets) : 0
-  subnet_id      = element(aws_subnet.public.*.id, count.index)
+  subnet_id      = element(aws_subnet.public[*].id, count.index)
   route_table_id = aws_route_table.public[0].id
 }
 
@@ -84,8 +84,8 @@ resource "aws_eip" "nat" {
 
 resource "aws_nat_gateway" "this" {
   count         = var.enable_nat_gateway ? local.nat_gateway_count : 0
-  allocation_id = element(aws_eip.nat.*.id, var.single_nat_gateway ? 0 : count.index)
-  subnet_id     = element(aws_subnet.public.*.id, var.single_nat_gateway ? 0 : count.index)
+  allocation_id = element(aws_eip.nat[*].id, var.single_nat_gateway ? 0 : count.index)
+  subnet_id     = element(aws_subnet.public[*].id, var.single_nat_gateway ? 0 : count.index)
   tags = merge(
     { Name = "${var.name}-nat-gateway-${count.index}" },
     var.common_tags
@@ -124,13 +124,11 @@ resource "aws_route" "private" {
   count                  = var.enable_nat_gateway && length(var.private_subnets) > 0 ? local.nat_gateway_count : 0
   route_table_id         = aws_route_table.private[0].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
+  nat_gateway_id         = element(aws_nat_gateway.this[*].id, count.index)
 }
 
 resource "aws_route_table_association" "private" {
   count          = length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
-  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  subnet_id      = element(aws_subnet.private[*].id, count.index)
   route_table_id = aws_route_table.private[0].id
 }
-
-
